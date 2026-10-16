@@ -9,7 +9,7 @@ Speak to the user through their computer's speakers.
 
 1. Decide what to say.
    - If the user gave text ($ARGUMENTS), say exactly that.
-   - Otherwise write a spoken update of at most 35 words: the outcome first (done, failed, or what you need from them), then the one detail that matters most. Name the project if more than one could be running.
+   - Otherwise write a spoken update of at most 40 words: name the project and what you were doing in a few words, give the outcome (done, failed, or blocked), and end with the next step and who owns it ("your call on the migration", "I'll start the tests next").
    - Write for the ear: no code, file paths, URLs, markdown or emoji. Say numbers and symbols as words where needed ("two tests failed", not "2/14 ✗").
 2. Run the `speak.sh` script that sits next to this SKILL.md, with the text as one quoted argument. In Claude Code the path is `${CLAUDE_SKILL_DIR}/speak.sh`:
 
@@ -17,7 +17,7 @@ Speak to the user through their computer's speakers.
    bash "<this skill's folder>/speak.sh" "Tests pass. I fixed the date parser and I have one question about the migration."
    ```
 
-   It returns immediately and the voice plays in the background, so carry on working.
+   It returns immediately and the voice plays in the background, so carry on working. If other sessions are speaking, it waits its turn instead of talking over them.
 3. Also write the same sentence in your reply, so it is on screen too.
 
 If the script says no voice engine was found, tell the user what to install: on Linux `espeak-ng` or `speech-dispatcher`. macOS and Windows (including WSL) need nothing. Voice and speed can be set with the `SAY_VOICE` and `SAY_RATE` environment variables.

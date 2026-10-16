@@ -17,7 +17,7 @@ It uses the voice your computer already has, so there is nothing to sign up for 
 | Linux | `spd-say`, `espeak-ng` or `espeak` (install one: `sudo apt install espeak-ng`) |
 | Windows / WSL | PowerShell `System.Speech` (built in) |
 
-Speech plays in the background, so the agent never waits for it.
+Speech plays in the background, so the agent never waits for it. Running several sessions? Their updates queue up and play one at a time instead of talking over each other.
 
 ## Install
 
