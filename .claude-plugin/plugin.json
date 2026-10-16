@@ -1,0 +1,10 @@
+{
+  "name": "say",
+  "version": "1.0.0",
+  "description": "Text-to-speech for Claude Code: /say speaks a short update or any text with your computer's built-in voice.",
+  "author": { "name": "Heard", "url": "https://heard.dev" },
+  "homepage": "https://github.com/heardlabs/claude-code-tts",
+  "repository": "https://github.com/heardlabs/claude-code-tts",
+  "license": "MIT",
+  "keywords": ["text-to-speech", "tts", "voice", "claude code", "codex", "skill"]
+}

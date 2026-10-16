@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-tts",
+  "owner": { "name": "Heard", "email": "hello@heard.dev" },
+  "metadata": { "description": "Text-to-speech skill for Claude Code and Codex." },
+  "plugins": [
+    {
+      "name": "say",
+      "source": "./",
+      "description": "/say speaks a short update or any text with your computer's built-in voice.",
+      "homepage": "https://github.com/heardlabs/claude-code-tts",
+      "category": "productivity"
+    }
+  ]
+}
