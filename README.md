@@ -2,9 +2,9 @@
 
 <img src="plugins/say/.claude-plugin/icon.png" width="88" alt="">
 
-# claude-code-tts: a /say skill for Claude Code and Codex
+# claude-code-tts: text-to-speech for Claude Code and Codex
 
-**Spoken briefings from your coding agent. Type `/say` and hear what this is, how it went, and who moves next.**
+**A `/say` skill that speaks a short summary aloud instead of reading every word: what this is, how it went, and who moves next.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-skill_%2B_plugin-d97757)](#install)
