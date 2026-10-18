@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".claude-plugin/icon.png" width="88" alt="">
+<img src="plugins/say/.claude-plugin/icon.png" width="88" alt="">
 
 # claude-code-tts: a /say skill for Claude Code and Codex
 
@@ -70,8 +70,8 @@ Codex uses `$say` the same way. You can also tell the agent "say it out loud whe
 ```bash
 git clone https://github.com/heardlabs/claude-code-tts
 mkdir -p ~/.claude/skills ~/.agents/skills
-cp -r claude-code-tts/skills/say ~/.claude/skills/
-cp -r claude-code-tts/skills/say ~/.agents/skills/
+cp -r claude-code-tts/plugins/say/skills/say ~/.claude/skills/
+cp -r claude-code-tts/plugins/say/skills/say ~/.agents/skills/
 ```
 
 **Claude Code, as a plugin** (the command is then `/say:say`):
@@ -81,7 +81,7 @@ claude plugin marketplace add heardlabs/claude-code-tts
 claude plugin install say@claude-code-tts
 ```
 
-Then try `/say hello`.
+Then try `/say hello`. The first time, Claude Code asks before it runs the speech script: pick "Yes, and don't ask again".
 
 ## Supported systems
 
@@ -100,7 +100,7 @@ Set these in your shell profile:
 | `SAY_VOICE` | Voice name (`say -v '?'` lists them on macOS) | `Samantha`, `en-us` |
 | `SAY_RATE` | Words per minute | `200` |
 
-The script is [`skills/say/speak.sh`](skills/say/speak.sh) and works on its own too: `echo "deploy done" | bash speak.sh`.
+The script is [`speak.sh`](plugins/say/skills/say/speak.sh) and works on its own too: `bash speak.sh "deploy done"`.
 
 ## FAQ
 

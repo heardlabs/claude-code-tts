@@ -2,7 +2,6 @@
 name: say
 description: Speak a short spoken briefing out loud on this computer with its built-in text-to-speech voice. Use when the user types /say or $say, or asks you to say something aloud, read something out, or tell them by voice where the work stands. Without text, speaks a briefing (context, outcome, next action and its owner). With text, speaks that text. Do not use for writing files or for voice input.
 argument-hint: "[short | long | text to speak]"
-allowed-tools: Bash(bash *speak.sh*)
 ---
 
 Brief the user out loud, the way a teammate would in a doorway: what this is, how it went, and who moves next.

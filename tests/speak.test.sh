@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Unit tests for skills/say/speak.sh, using fake voice engines (no audio needed).
+# Unit tests for plugins/say/skills/say/speak.sh, using fake voice engines (no audio needed).
 #   bash tests/speak.test.sh
 set -u
 here="$(cd "$(dirname "$0")" && pwd)"
-speak="$here/../skills/say/speak.sh"
+speak="$here/../plugins/say/skills/say/speak.sh"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 pass=0; fail=0

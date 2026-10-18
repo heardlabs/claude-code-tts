@@ -13,7 +13,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const skillDir = join(here, "..", "..", "skills", "say");
+const skillDir = join(here, "..", "..", "plugins", "say", "skills", "say");
 const args = Object.fromEntries(process.argv.slice(2).join(" ").split("--").filter(Boolean).map(a => a.trim().split(/\s+/)));
 const runs = Number(args.runs ?? 1);
 const concurrency = Number(args.concurrency ?? 4);
