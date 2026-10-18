@@ -2,9 +2,9 @@
 
 <img src="plugins/say/.claude-plugin/icon.png" width="88" alt="">
 
-# claude-code-tts: a /say skill for Claude Code and Codex
+# claude-code-tts: text-to-speech for Claude Code and Codex
 
-**Spoken briefings from your coding agent. Type `/say` and hear what this is, how it went, and who moves next.**
+**A `/say` skill that speaks a short summary aloud instead of reading every word. Type `/say` and hear what this is, how it went, and who moves next.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-skill_%2B_plugin-d97757)](#install)
@@ -119,7 +119,7 @@ No. The text goes straight to your computer's built-in voice. Nothing leaves the
 **Can it speak automatically every time the agent finishes?**
 `/say` speaks when you or the agent asks. For automatic updates, see the next section.
 
-## Want it to speak by itself?
+## Want it to speak by itself when Claude Code finishes?
 
 - **DIY:** a Claude Code `Stop` hook that pipes a short summary into a TTS command. The Stop hook input includes `last_assistant_message`, Claude's final reply, so `jq -r '.last_assistant_message // empty' | head -c 600 | say` with `"async": true` is enough for one session. See the [hooks docs](https://code.claude.com/docs/en/hooks).
 - **Heard:** this skill comes from the team behind [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill), the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
