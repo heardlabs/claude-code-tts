@@ -122,7 +122,7 @@ No. The text goes straight to your computer's built-in voice. Nothing leaves the
 ## Want it to speak by itself?
 
 - **DIY:** a Claude Code `Stop` hook that pipes a short summary into a TTS command. There is a walk-through in [Make Claude Code talk back with a text-to-speech Stop hook](https://dev.to/sodiumsun/make-claude-code-talk-back-with-a-text-to-speech-stop-hook-5cc3).
-- **Heard:** this skill comes from the team behind [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill), the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back.
+- **Heard:** this skill comes from the team behind [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill), the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
 
 ## Tests
 
