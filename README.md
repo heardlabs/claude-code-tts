@@ -78,7 +78,7 @@ cp -r claude-code-tts/plugins/say/skills/say ~/.agents/skills/
 
 ```bash
 claude plugin marketplace add heardlabs/claude-code-tts
-claude plugin install say@claude-code-tts
+claude plugin install say@heard-say
 ```
 
 Then try `/say hello`. The first time, Claude Code asks before it runs the speech script: pick "Yes, and don't ask again".

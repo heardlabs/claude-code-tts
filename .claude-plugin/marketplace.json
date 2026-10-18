@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-tts",
+  "name": "heard-say",
   "owner": { "name": "Heard", "email": "hello@heard.dev" },
   "metadata": { "description": "Text-to-speech skill for Claude Code and Codex." },
   "plugins": [
