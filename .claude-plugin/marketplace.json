@@ -1,12 +1,17 @@
 {
   "name": "heard-say",
-  "owner": { "name": "Heard", "email": "hello@heard.dev" },
-  "metadata": { "description": "Text-to-speech skill for Claude Code and Codex." },
+  "owner": {
+    "name": "Heard",
+    "email": "hello@heard.dev"
+  },
+  "metadata": {
+    "description": "Spoken briefings for Claude Code and Codex."
+  },
   "plugins": [
     {
       "name": "say",
       "source": "./plugins/say",
-      "description": "/say speaks a short update or any text with your computer's built-in voice.",
+      "description": "/say speaks a short briefing (context, outcome, next action and owner) with your computer's built-in voice.",
       "homepage": "https://github.com/heardlabs/claude-code-tts",
       "category": "productivity"
     }
