@@ -33,15 +33,22 @@ Reading an agent's reply aloud word by word is noise. `/say` makes the agent wri
 | **2. Outcome** | Done, failed, blocked or still going, plus the one fact that matters | "the refactor is done and all tests pass." |
 | **3. Next action + owner** | What happens next and who does it. Never ends without an owner | "The migration is your call." / "I'll start the docs next." |
 
+**When you have to act, you get what you need to act** without opening the terminal:
+
+- **A decision:** the options, the one trade-off between them, and the agent's recommendation. *"Two fixes: raise the timeout, two minutes but the page stays slow, or add an index, an hour but under two seconds. I'd add the index. Your call."*
+- **Something it needs:** exactly what, and where it goes. *"I need a Stripe test key in the env file to run the payment tests."*
+- **An approval:** what will happen and the risk. *"I want to drop the old sessions table. It's backed up. Okay to go ahead?"*
+- **Too many options to say:** the recommendation out loud, the full comparison on screen.
+
 No code, file paths, URLs or markdown are read aloud. Numbers come out as words ("two tests failed", not "2/14").
 
 Pick the length:
 
 | Command | Length | What you get |
 |---|---|---|
-| `/say short` | up to 15 words | Context and next action |
-| `/say` | up to 35 words | All three parts |
-| `/say long` | up to 70 words | All three parts, plus the one risk or decision you should know about |
+| `/say short` | up to 15 words (20 for a decision) | Context and next action, or the options in a word or two and the pick |
+| `/say` | up to 35 words (50 when you must decide) | All three parts |
+| `/say long` | up to 80 words | All three parts, plus the one risk you should know about, and full options for a decision |
 | `/say <text>` | your text | Reads your text as is |
 
 Codex uses `$say` the same way. You can also tell the agent "say it out loud when the tests finish".
@@ -49,6 +56,7 @@ Codex uses `$say` the same way. You can also tell the agent "say it out loud whe
 ## Features
 
 - **A templated briefing, not a transcript.** Context, outcome, next action and owner, every time.
+- **Built for decisions.** When it needs you, it says the options, the trade-off and its recommendation.
 - **Three lengths.** `short`, normal and `long`, so a glance and a full update both work.
 - **Parallel sessions take turns.** Several agents speaking at once queue up instead of talking over each other, and the context line tells you which one is talking.
 - **Never blocks the agent.** Speech plays in the background, and the command returns at once.
@@ -115,6 +123,11 @@ No. The text goes straight to your computer's built-in voice. Nothing leaves the
 
 - **DIY:** a Claude Code `Stop` hook that pipes a short summary into a TTS command. There is a walk-through in [Make Claude Code talk back with a text-to-speech Stop hook](https://dev.to/sodiumsun/make-claude-code-talk-back-with-a-text-to-speech-stop-hook-5cc3).
 - **Heard:** this skill comes from the team behind [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill), the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval. Its engine is [open source (Apache 2.0)](https://github.com/heardlabs/heard) and runs fully local with Kokoro text-to-speech.
+
+## Tests
+
+- `bash tests/speak.test.sh`: 18 checks on the speech script with fake voice engines (engines and options, stdin, markdown stripping, length cap, background playback, queueing without overlap, stale locks). Runs in CI.
+- `node tests/eval/run.mjs`: briefing quality. 17 scenarios (done, failed, blocked on a secret, two, three and six-option decisions, destructive approval, path-heavy and number-heavy updates, all three lengths, literal text). Each runs a real headless Claude Code session with the skill, captures what it says, checks word limits and that no paths, URLs or code are read aloud, then a judge model grades context, outcome, owner, whether you could act on it, and faithfulness. Needs the `claude` CLI.
 
 ## License
 
