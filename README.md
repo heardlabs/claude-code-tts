@@ -4,7 +4,7 @@
 
 # claude-code-tts: a /say skill for Claude Code and Codex
 
-**Text-to-speech for your coding agent. Type `/say` and hear where the work stands.**
+**Spoken briefings from your coding agent. Type `/say` and hear what this is, how it went, and who moves next.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-skill_%2B_plugin-d97757)](#install)
@@ -16,23 +16,43 @@
 
 ```text
 > /say
-speaking: Billing refactor is done and all tests pass. Next step is the migration, your call.
+speaking: In the billing service, the refactor is done and all tests pass.
+          The schema migration is next, and it's your call whether to run it today.
 
-> /say the build is green, going for coffee
-speaking: the build is green, going for coffee
+> /say short
+speaking: Billing refactor done, migration is your call.
 ```
 
-## Why
+## Not just text-to-speech: a briefing format
 
-Your agent finished five minutes ago and you were looking at another window. `/say` lets Claude Code (`/say`) or Codex (`$say`) tell you out loud, in a sentence or two, what happened and what comes next. Ask for it whenever you like, or tell the agent "say it out loud when the tests finish".
+Reading an agent's reply aloud word by word is noise. `/say` makes the agent write a briefing for the ear first, always in the same three parts:
+
+| Part | What it says | Example |
+|---|---|---|
+| **1. Context** | Which project or task, so you know which session is talking | "In the billing service," |
+| **2. Outcome** | Done, failed, blocked or still going, plus the one fact that matters | "the refactor is done and all tests pass." |
+| **3. Next action + owner** | What happens next and who does it. Never ends without an owner | "The migration is your call." / "I'll start the docs next." |
+
+No code, file paths, URLs or markdown are read aloud. Numbers come out as words ("two tests failed", not "2/14").
+
+Pick the length:
+
+| Command | Length | What you get |
+|---|---|---|
+| `/say short` | up to 15 words | Context and next action |
+| `/say` | up to 35 words | All three parts |
+| `/say long` | up to 70 words | All three parts, plus the one risk or decision you should know about |
+| `/say <text>` | your text | Reads your text as is |
+
+Codex uses `$say` the same way. You can also tell the agent "say it out loud when the tests finish".
 
 ## Features
 
-- **Spoken status in one line.** Without text, the agent sums up the project, the outcome (done, failed, blocked) and the next step with who owns it, in 40 words or fewer.
-- **Says anything you give it.** `/say <text>` reads your text as is.
+- **A templated briefing, not a transcript.** Context, outcome, next action and owner, every time.
+- **Three lengths.** `short`, normal and `long`, so a glance and a full update both work.
+- **Parallel sessions take turns.** Several agents speaking at once queue up instead of talking over each other, and the context line tells you which one is talking.
 - **Never blocks the agent.** Speech plays in the background, and the command returns at once.
-- **Parallel sessions take turns.** Several agents speaking at once queue up instead of talking over each other.
-- **On screen too.** The same sentence appears in the reply, so you can read it later.
+- **On screen too.** The same briefing appears in the reply, so you can read it later.
 - **Nothing to sign up for.** It uses the voice your computer already has. No account, no API key, no network.
 
 ## Install
@@ -77,7 +97,10 @@ The script is [`skills/say/speak.sh`](skills/say/speak.sh) and works on its own 
 ## FAQ
 
 **How do I make Claude Code talk out loud?**
-Install the skill above and type `/say`. Claude writes a short spoken update and your computer reads it aloud.
+Install the skill above and type `/say`. Claude writes a short spoken briefing (context, outcome, next action and owner) and your computer reads it aloud.
+
+**How is this different from piping Claude's reply into a TTS command?**
+A raw reply read aloud is long and full of code and paths. `/say` has the agent write a few words for the ear in a fixed format first, so you can tell at once which session it is, how it went, and whether it needs you.
 
 **Does it work with Codex?**
 Yes. Copy the skill into `~/.agents/skills` and type `$say` in Codex.

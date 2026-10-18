@@ -1,7 +1,7 @@
 {
   "name": "say",
   "version": "1.0.0",
-  "description": "Text-to-speech for Claude Code: /say speaks a short update or any text with your computer's built-in voice.",
+  "description": "Spoken briefings for Claude Code: /say speaks context, outcome, next action and owner in a fixed format with your computer's built-in voice. Short, normal and long lengths.",
   "author": { "name": "Heard", "url": "https://heard.dev" },
   "homepage": "https://github.com/heardlabs/claude-code-tts",
   "privacyPolicyUrl": "https://heard.dev/privacy",
