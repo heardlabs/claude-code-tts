@@ -117,12 +117,39 @@ Yes. Copy the skill into `~/.agents/skills` and type `$say` in Codex.
 No. The text goes straight to your computer's built-in voice. Nothing leaves the machine.
 
 **Can it speak automatically every time the agent finishes?**
-`/say` speaks when you or the agent asks. For automatic updates, see the next section.
+Yes, with a Claude Code `Stop` hook. See the next section for the exact settings.
 
-## Want it to speak by itself?
+**Can I listen to Claude Code output instead of reading dense terminal text?**
+Yes. `/say` gives you a short spoken briefing on demand, and the Stop hook below reads each final reply aloud as it lands.
 
-- **DIY:** a Claude Code `Stop` hook that pipes a short summary into a TTS command. The Stop hook input includes `last_assistant_message`, Claude's final reply, so `jq -r '.last_assistant_message // empty' | head -c 600 | say` with `"async": true` is enough for one session. See the [hooks docs](https://code.claude.com/docs/en/hooks).
-- **Heard:** this skill comes from the team behind [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill), the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
+## Claude Code text-to-speech hook when a task completes
+
+`/say` speaks when you or the agent asks. To hear something every time Claude finishes a turn, add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final reply into the same `speak.sh` script (needs `jq`; the path assumes the personal-skill install above):
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.last_assistant_message // empty' | bash ~/.claude/skills/say/speak.sh >/dev/null",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- **Why `last_assistant_message`:** the Stop hook input carries Claude's final reply in that field. The [hooks docs](https://code.claude.com/docs/en/hooks) recommend it over reading `transcript_path` for read-aloud hooks, because the transcript file may not include the final message yet when Stop fires.
+- **Why `"async": true`:** the hook runs in the background, so Claude never waits for the voice.
+- **What you hear:** the raw reply, with markdown stripped and capped at 600 characters by `speak.sh`, using `say` on macOS, `spd-say` or `espeak-ng` on Linux, and System.Speech on Windows. Parallel sessions queue instead of talking over each other.
+- **Check it:** run `/hooks` in Claude Code to see the Stop hook listed, then ask Claude anything short.
+
+A raw reply read aloud is often long and full of code. That is the gap `/say` fills for one session, and the gap [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) fills for many: this skill comes from the team behind Heard, the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
 
 ## Tests
 
