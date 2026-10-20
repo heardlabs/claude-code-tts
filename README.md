@@ -6,6 +6,8 @@
 
 **A `/say` skill that speaks a short summary aloud instead of reading every word: what this is, how it went, and who moves next.**
 
+Free and open source (MIT). It reads Claude Code updates aloud as a short spoken summary, using your computer's built-in voice: no API key, no account.
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-skill_%2B_plugin-d97757)](#install)
 [![Codex](https://img.shields.io/badge/Codex-skill-111111)](#install)
