@@ -124,9 +124,9 @@ Yes, with a Claude Code `Stop` hook. See the next section for the exact settings
 **Can I listen to Claude Code output instead of reading dense terminal text?**
 Yes. `/say` gives you a short spoken briefing on demand, and the Stop hook below reads each final reply aloud as it lands.
 
-## Claude Code text-to-speech hook when a task completes
+## Claude Code text-to-speech hook: connect hooks to narration when a task completes
 
-`/say` speaks when you or the agent asks. To hear something every time Claude finishes a turn, add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final reply into the same `speak.sh` script (needs `jq`; the path assumes the personal-skill install above):
+`/say` speaks when you or the agent asks. To connect Claude Code hooks to narration, so you hear something every time Claude finishes a turn, add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final reply into the same `speak.sh` script (needs `jq`; the path assumes the personal-skill install above):
 
 ```json
 {
