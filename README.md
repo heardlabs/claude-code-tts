@@ -1,12 +1,59 @@
+# claude-code-tts: text-to-speech for Claude Code and Codex
+
+Can you use text-to-speech with Claude Code? Yes. This free, open-source (MIT) repo reads Claude Code updates aloud with your computer's built-in voice: a `Stop` hook reads each response out loud when a task completes, and a `/say` skill speaks a short summary when you ask. No API key, no account.
+
+## Make Claude Code read its responses out loud (Stop hook)
+
+To connect Claude Code hooks to narration, first get the speech script:
+
+```bash
+git clone https://github.com/heardlabs/claude-code-tts
+mkdir -p ~/.claude/skills
+cp -r claude-code-tts/plugins/say/skills/say ~/.claude/skills/
+```
+
+Then add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final reply into `speak.sh` (needs `jq`):
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.last_assistant_message // empty' | bash ~/.claude/skills/say/speak.sh >/dev/null",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+- **Why `last_assistant_message`:** the Stop hook input carries Claude's final reply in that field. The [hooks docs](https://code.claude.com/docs/en/hooks) recommend it over reading `transcript_path` for read-aloud hooks, because the transcript file may not include the final message yet when Stop fires.
+- **Why `"async": true`:** the hook runs in the background, so Claude never waits for the voice.
+- **What you hear:** the raw reply, with markdown stripped and capped at 600 characters by `speak.sh`, using `say` on macOS, `spd-say` or `espeak-ng` on Linux, and System.Speech on Windows. Parallel sessions queue instead of talking over each other.
+- **Check it:** run `/hooks` in Claude Code to see the Stop hook listed, then ask Claude anything short.
+
+## Let Claude Code speak to you, not just take voice input
+
+Claude Code's `/voice` command is dictation: it turns your speech into a prompt and does not speak replies back. To hear Claude Code, use the `Stop` hook above, or type `/say` for a short spoken briefing (install below).
+
+## Play a sound or speak when Claude Code finishes a task
+
+For a fixed line instead of the whole reply, give `speak.sh` the text. Use this as the hook command in the same `Stop` block:
+
+```json
+"command": "bash ~/.claude/skills/say/speak.sh 'Claude is done' >/dev/null"
+```
+
+For a sound instead of a voice on macOS, use `afplay /System/Library/Sounds/Glass.aiff` as the command.
+
 <div align="center">
 
 <img src="plugins/say/.claude-plugin/icon.png" width="88" alt="">
-
-# claude-code-tts: text-to-speech for Claude Code and Codex
-
-**A `/say` skill that speaks a short summary aloud instead of reading every word: what this is, how it went, and who moves next.**
-
-Free and open source (MIT). It reads Claude Code updates aloud as a short spoken summary, using your computer's built-in voice: no API key, no account.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-skill_%2B_plugin-d97757)](#install)
@@ -15,6 +62,10 @@ Free and open source (MIT). It reads Claude Code updates aloud as a short spoken
 ![No API key](https://img.shields.io/badge/API_key-none-2ea44f)
 
 </div>
+
+## /say: a short spoken summary instead of every word
+
+**A `/say` skill that speaks a short summary aloud instead of reading every word: what this is, how it went, and who moves next.**
 
 ```text
 > /say
@@ -25,7 +76,7 @@ speaking: In the billing service, the refactor is done and all tests pass.
 speaking: Billing refactor done, migration is your call.
 ```
 
-## Not just text-to-speech: a briefing format
+### A briefing format, not a transcript
 
 Reading an agent's reply aloud word by word is noise. `/say` makes the agent write a briefing for the ear first, always in the same three parts:
 
@@ -119,37 +170,12 @@ Yes. Copy the skill into `~/.agents/skills` and type `$say` in Codex.
 No. The text goes straight to your computer's built-in voice. Nothing leaves the machine.
 
 **Can it speak automatically every time the agent finishes?**
-Yes, with a Claude Code `Stop` hook. See the next section for the exact settings.
+Yes, with a Claude Code `Stop` hook. See [the Stop hook section](#make-claude-code-read-its-responses-out-loud-stop-hook) at the top for the exact settings.
 
 **Can I listen to Claude Code output instead of reading dense terminal text?**
-Yes. `/say` gives you a short spoken briefing on demand, and the Stop hook below reads each final reply aloud as it lands.
+Yes. `/say` gives you a short spoken briefing on demand, and the Stop hook above reads each final reply aloud as it lands.
 
-## Claude Code text-to-speech hook when a task completes
-
-`/say` speaks when you or the agent asks. To hear something every time Claude finishes a turn, add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final reply into the same `speak.sh` script (needs `jq`; the path assumes the personal-skill install above):
-
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.last_assistant_message // empty' | bash ~/.claude/skills/say/speak.sh >/dev/null",
-            "async": true
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-- **Why `last_assistant_message`:** the Stop hook input carries Claude's final reply in that field. The [hooks docs](https://code.claude.com/docs/en/hooks) recommend it over reading `transcript_path` for read-aloud hooks, because the transcript file may not include the final message yet when Stop fires.
-- **Why `"async": true`:** the hook runs in the background, so Claude never waits for the voice.
-- **What you hear:** the raw reply, with markdown stripped and capped at 600 characters by `speak.sh`, using `say` on macOS, `spd-say` or `espeak-ng` on Linux, and System.Speech on Windows. Parallel sessions queue instead of talking over each other.
-- **Check it:** run `/hooks` in Claude Code to see the Stop hook listed, then ask Claude anything short.
+## From the team behind Heard
 
 A raw reply read aloud is often long and full of code. That is the gap `/say` fills for one session, and the gap [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) fills for many: this skill comes from the team behind Heard, the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
 
