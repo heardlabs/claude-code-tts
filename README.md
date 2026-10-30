@@ -177,7 +177,7 @@ Yes. `/say` gives you a short spoken briefing on demand, and the Stop hook above
 
 ## From the team behind Heard
 
-A raw reply read aloud is often long and full of code. That is the gap `/say` fills for one session, and the gap [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) fills for many: this skill comes from the team behind Heard, the voice layer for coding agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
+A raw reply read aloud is often long and full of code. That is the gap `/say` fills for one session, and the gap [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) fills for many: this skill comes from the team behind Heard (heard.dev), the voice context layer for agents on macOS. Heard follows your Claude Code and Codex sessions and tells you in a sentence or two when an agent finishes, fails or needs your approval, and you can talk back. The Mac app is a managed build. There is also a separate [open-source engine (Apache 2.0)](https://github.com/heardlabs/heard) you can build yourself, which runs fully local with Kokoro text-to-speech.
 
 ## Tests
 
