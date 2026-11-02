@@ -44,15 +44,17 @@ if ! command -v say >/dev/null 2>&1 && ! command -v spd-say >/dev/null 2>&1 && !
 fi
 
 # One voice at a time: updates from parallel sessions wait their turn instead of
-# talking over each other. The lock is a directory (mkdir is atomic everywhere,
-# flock is not on macOS); a lock older than 2 minutes is treated as stale.
-lock="${TMPDIR:-/tmp}/claude-say.lock"
+# talking over each other. The lock is a file created with bash's noclobber, which is
+# O_EXCL in the shell itself: `mkdir` is not exclusive under uutils coreutils (0.10.0 on
+# GitHub's ubuntu-latest), where several callers can all "succeed" at once. A lock older than
+# 2 minutes is treated as stale.
+lock="${TMPDIR:-/tmp}/claude-say.lockfile"
 (
-  until mkdir "$lock" 2>/dev/null; do
-    if [ -n "$(find "$lock" -maxdepth 0 -mmin +2 2>/dev/null)" ]; then rmdir "$lock" 2>/dev/null; fi
+  until ( set -C; : > "$lock" ) 2>/dev/null; do
+    if [ -n "$(find "$lock" -maxdepth 0 -mmin +2 2>/dev/null)" ]; then rm -f "$lock"; fi
     sleep 0.3
   done
-  trap 'rmdir "$lock" 2>/dev/null' EXIT
+  trap 'rm -f "$lock"' EXIT
   speak
 ) >/dev/null 2>&1 &
 
