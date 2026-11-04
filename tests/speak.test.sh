@@ -103,10 +103,10 @@ lines=$(wc -l < "$work/log.queue" 2>/dev/null || echo 0)
 overlap=$(sort -n "$work/log.queue" | awk 'NR>1 && $1 < prev_end {o=1} {prev_end=$2} END {print o+0}')
 [ "$lines" -eq 4 ] && ok "four parallel calls all spoken" || bad "four parallel calls all spoken" "got $lines"
 [ "$overlap" -eq 0 ] && ok "parallel calls never overlap" || bad "parallel calls never overlap" "$(cat "$work/log.queue")"
-[ ! -d "$work/tmp/claude-say.lock" ] && ok "lock released afterwards" || bad "lock released afterwards"
+[ ! -e "$work/tmp/claude-say.lockfile" ] && ok "lock released afterwards" || bad "lock released afterwards"
 
 # 14. stale lock (older than 2 minutes) is taken over
-mkdir -p "$work/tmp/claude-say.lock"; touch -d '5 minutes ago' "$work/tmp/claude-say.lock"; rm -f "$work/log.espeak-ng"
+touch -d '5 minutes ago' "$work/tmp/claude-say.lockfile"; rm -f "$work/log.espeak-ng"
 run "$work/b1" "after stale lock" >/dev/null
 waitlog "$work/log.espeak-ng" 1 && ok "takes over a stale lock" || bad "takes over a stale lock"
 
