@@ -45,6 +45,8 @@ Claude Code's `/voice` command is dictation: it turns your speech into a prompt 
 
 Just want a sound when Claude Code finishes or needs you, with no voice? Use [claude-code-sound-notification](https://github.com/heardlabs/claude-code-sound-notification), also from the Heard team: one install command adds a `Stop` and a `Notification` hook.
 
+On OpenAI Codex CLI, [codex-sound-notification](https://github.com/heardlabs/codex-sound-notification) does the same with Codex's `notify` setting and a `PermissionRequest` hook.
+
 For a fixed line instead of the whole reply, give `speak.sh` the text. Use this as the hook command in the same `Stop` block:
 
 ```json
