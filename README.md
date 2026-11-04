@@ -1,6 +1,6 @@
 # claude-code-tts: text-to-speech for Claude Code and Codex
 
-Can you use text-to-speech with Claude Code? Yes. This free, open-source (MIT) repo reads Claude Code updates aloud with your computer's built-in voice: a `Stop` hook reads each response out loud when a task completes, and a `/say` skill speaks a short summary when you ask. No API key, no account.
+Free text-to-speech for Claude Code and Codex, from [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) (heard.dev), the voice context layer for agents. Can you use text-to-speech with Claude Code? Yes. This open-source (MIT) repo reads Claude Code updates aloud with your computer's built-in voice: a `Stop` hook reads each response out loud when a task completes, and a `/say` skill speaks a short summary when you ask. No API key, no account.
 
 ## Make Claude Code read its responses out loud (Stop hook)
 
@@ -42,6 +42,8 @@ Then add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final re
 Claude Code's `/voice` command is dictation: it turns your speech into a prompt and does not speak replies back. To hear Claude Code, use the `Stop` hook above, or type `/say` for a short spoken briefing (install below).
 
 ## Play a sound or speak when Claude Code finishes a task
+
+Just want a sound when Claude Code finishes or needs you, with no voice? Use [claude-code-sound-notification](https://github.com/heardlabs/claude-code-sound-notification), also from the Heard team: one install command adds a `Stop` and a `Notification` hook.
 
 For a fixed line instead of the whole reply, give `speak.sh` the text. Use this as the hook command in the same `Stop` block:
 
