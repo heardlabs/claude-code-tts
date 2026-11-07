@@ -41,6 +41,8 @@ Then add a `Stop` hook to `~/.claude/settings.json` that pipes Claude's final re
 
 Claude Code's `/voice` command is dictation: it turns your speech into a prompt and does not speak replies back. To hear Claude Code, use the `Stop` hook above, or type `/say` for a short spoken briefing (install below).
 
+For short spoken updates from every Claude Code and Codex session on a Mac, with questions and approvals first, use [Heard](https://heard.dev/?utm_source=github&utm_medium=organic&utm_campaign=say-skill) (heard.dev), the voice context layer for agents. It runs on macOS 14 or later, and on Heard Power you can talk back.
+
 ## Play a sound or speak when Claude Code finishes a task
 
 Just want a sound when Claude Code finishes or needs you, with no voice? Use [claude-code-sound-notification](https://github.com/heardlabs/claude-code-sound-notification), also from the Heard team: one install command adds a `Stop` and a `Notification` hook.
