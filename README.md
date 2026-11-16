@@ -4,7 +4,15 @@ Free text-to-speech for Claude Code and Codex, from [Heard](https://heard.dev/?u
 
 ## Make Claude Code read its responses out loud (Stop hook)
 
-To connect Claude Code hooks to narration, first get the speech script:
+One command installs the `/say` skill and a `Stop` hook that reads each Claude Code reply aloud (needs `jq`):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/heardlabs/claude-code-tts/main/install.sh | bash
+```
+
+It copies the skill to `~/.claude/skills/say`, merges the hook into `~/.claude/settings.json` with `jq`, keeps your other hooks and backs the file up first. Running it again updates the install without adding a second voice. Add `--with-codex` to also install `$say` for Codex, `--no-hook` for the skill alone, or `--uninstall` to remove only what it added. From a clone: `bash claude-code-tts/install.sh`.
+
+**By hand,** if you prefer to edit the file yourself, first get the speech script:
 
 ```bash
 git clone https://github.com/heardlabs/claude-code-tts
@@ -124,7 +132,13 @@ Codex uses `$say` the same way. You can also tell the agent "say it out loud whe
 
 ## Install
 
-**Claude Code and Codex, as a personal skill** (gives you `/say` and `$say`):
+**One command** (the skill plus the read-aloud `Stop` hook; add `--with-codex` for `$say` in Codex, or `--no-hook` for the skill alone):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/heardlabs/claude-code-tts/main/install.sh | bash
+```
+
+**Claude Code and Codex, as a personal skill by hand** (gives you `/say` and `$say`):
 
 ```bash
 git clone https://github.com/heardlabs/claude-code-tts
@@ -187,6 +201,7 @@ A raw reply read aloud is often long and full of code. That is the gap `/say` fi
 
 ## Tests
 
+- `bash tests/install.test.sh`: 23 checks on `install.sh` (merges without overwriting, backs up first, safe to run twice, replaces the hand-written hook instead of adding a second voice, leaves a `say` skill it did not install alone, uninstall restores your hooks exactly). Runs in CI.
 - `bash tests/speak.test.sh`: 18 checks on the speech script with fake voice engines (engines and options, stdin, markdown stripping, length cap, background playback, queueing without overlap, stale locks). Runs in CI.
 - `node tests/eval/run.mjs`: briefing quality. 17 scenarios (done, failed, blocked on a secret, two, three and six-option decisions, destructive approval, path-heavy and number-heavy updates, all three lengths, literal text). Each runs a real headless Claude Code session with the skill, captures what it says, checks word limits and that no paths, URLs or code are read aloud, then a judge model grades context, outcome, owner, whether you could act on it, and faithfulness. Needs the `claude` CLI.
 

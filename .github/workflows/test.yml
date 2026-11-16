@@ -6,3 +6,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: bash tests/speak.test.sh
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash tests/install.test.sh
+      - run: shellcheck install.sh tests/install.test.sh
